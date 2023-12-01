@@ -37,11 +37,11 @@ const ConfirmConfirmation = ({ itemId, onDelete, apiEndpoint, button, text, text
                     confirmButtonColor: "#039E57",
                 });
                 onDelete();
-                if (reloadPage) {
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                }
+                // if (reloadPage) {
+                //     setTimeout(() => {
+                //         window.location.reload();
+                //     }, 1000);
+                // }
             } catch (error) {
                 console.log(error);
             }

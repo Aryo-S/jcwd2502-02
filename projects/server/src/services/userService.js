@@ -202,20 +202,20 @@ module.exports = {
 
     editBranchManager: async (req) => {
         try {
+            console.log('ini dari edit admin');
             const { email, store_branch_id } = req.body;
+            console.log(req.body);
             const account = await db.user.findOne({
                 where: { email }
             });
             if (!account) throw { status: 401, message: "Error, account was not found!" };
-            if (store_branch_id == account.dataValues.store_branch_id) throw { error: 401, message: "Admin was already assigned to the designated branch" };
+            if (store_branch_id == account.dataValues.store_branch_id) throw { status: 401, message: "Admin was already assigned to the designated branch" };
             await db.user.update({ store_branch_id }, { where: { email } })
-            await db.user.findAll().then((res) => { console.log(res); })
             return {
                 isError: false,
                 message: "Admin assigned to new branch"
             }
         } catch (error) {
-            console.log(error);
             return error
         }
     },
@@ -242,7 +242,6 @@ module.exports = {
                 offset,
                 include: [{ model: db.store_branch }]
             });
-            console.log(filteredAdmins);
             const totalRecords = await db.user.count({ where: whereCondition });
             const maxPages = Math.ceil(totalRecords / limit);
             return {

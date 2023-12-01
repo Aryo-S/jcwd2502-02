@@ -50,7 +50,6 @@ export default function CreateAdminPage() {
 
     const onGetAdmins = async () => {
         try {
-            setAdmin(() => [])
             const { data } = await api().get(`/users/admin-filter?username=${queryUsername}&branch=${queryBranch}&page=${page}`)
             setMaxPage(data.data.maxPages)
             setAdmin(() => data.data.filteredAdmins);
@@ -87,7 +86,6 @@ export default function CreateAdminPage() {
         onGetAdmins()
         onGetBranch()
     }, [queryBranch, page, debouncedName])
-
 
     return (
         <div className="flex flex-col flex-grow min-h-screen gap-2">

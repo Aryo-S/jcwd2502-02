@@ -18,16 +18,13 @@ const ModalEditAdmin = ({ adminData, getAdmins }) => {
         },
         onSubmit: async (values) => {
             try {
-                setDisabled(true)
                 const response = await api().patch(`/users/edit-admin`, { ...values, username: adminData.username, email: adminData.email, })
-                await getAdmins()
                 document.getElementById(`my_modal_${adminData.username}`).close();
                 toast.success(response.data.message);
-                window.location.reload();
-                setDisabled(false)
+                return await getAdmins()
             } catch (error) {
+                document.getElementById(`my_modal_${adminData.username}`).close();
                 toast.error(error.response.data.message);
-                setDisabled(false)
             }
         },
         validationSchema: yup.object().shape({
@@ -77,13 +74,13 @@ const ModalEditAdmin = ({ adminData, getAdmins }) => {
                     <div className="flex flex-col gap-5 mt-5">
                         <div className="grid gap-5">
                             <div>
-                                <div className=" pb-2"> Branch </div>
+                                <div className=" p-2"> Currently at {branch[adminData.store_branch_id - 1]?.name} </div>
                                 <select id="store_branch_id" name="store_branch_id" onChange={formik.handleChange} value={formik.values.store_branch_id} className="rounded-xl w-full border border-green-700 p-2">
                                     <option value="" disabled> Select a branch </option>
                                     {
                                         branch && branch.map((value, index) => {
                                             return (
-                                                <option key={index} value={value.id} disabled={value.id === adminData.store_branch_id}>
+                                                <option key={index} value={value.id} disabled={value.id === adminData.store_branch_id} className={value.id === adminData.store_branch_id ? "font-bold highlightGreen" : "font-bold"}>
                                                     {value.name}
                                                 </option>
                                             )

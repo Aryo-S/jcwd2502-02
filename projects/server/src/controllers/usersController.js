@@ -330,10 +330,8 @@ module.exports = {
 
     editAdmin: async (req, res, next) => {
         try {
-            editBranchManager(req)
-            respondHandler(res, {
-                message: "Admin data has been updated"
-            })
+            const response = await editBranchManager(req)
+            respondHandler(res, response)
         } catch (error) {
             next(error);
         }
